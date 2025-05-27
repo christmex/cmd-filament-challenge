@@ -25,4 +25,14 @@ enum ServiceType: string
             self::Inspections => 70,
         };
     }
+
+    public function color(): string
+    {
+        return match($this) {
+            self::Cleaning => 'success',
+            self::Maintenance => 'warning',
+            self::Inspections => 'danger',
+        };
+    }
+
 }

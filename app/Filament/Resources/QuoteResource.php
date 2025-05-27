@@ -35,8 +35,8 @@ class QuoteResource extends Resource
             ->searchOnBlur()
             ->defaultSort('created_at', 'asc')
             ->paginated([10, 25, 50, 100])
-            // ->filtersFormColumns(2)
-            ->searchPlaceholder('Search: John doe')
+            ->filtersFormColumns(2)
+            ->searchPlaceholder('Search: Name|Email|Phone|Address')
             ->filtersTriggerAction(
                 fn (\Filament\Tables\Actions\Action $action) => $action
                     ->button()
@@ -51,11 +51,14 @@ class QuoteResource extends Resource
                             ->orWhere('email', 'like', "%{$search}%");
                     }),
                 Tables\Columns\TextColumn::make('phone')
-                    ->searchable(),
+                    ->searchable()
+                    ->copyable(),
                 Tables\Columns\TextColumn::make('address')
-                    ->searchable(),
+                    ->searchable()
+                    ->copyable(),
                 Tables\Columns\TextColumn::make('service_type')
-                    ->searchable(),
+                    ->badge()
+                    ->color(fn ($record) => $record->service_type->color()),
                 Tables\Columns\TextColumn::make('booking_date')
                     ->date()
                     ->sortable(),
