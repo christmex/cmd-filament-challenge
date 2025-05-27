@@ -64,6 +64,8 @@ class AdminPanelProvider extends PanelProvider
             ->profile(isSimple: false)
             ->maxContentWidth(MaxWidth::Full)
             ->viteTheme('resources/css/filament/admin/theme.css')
+            ->brandLogo(asset('logo.svg'))
+            ->brandLogoHeight('2rem')
             ->font('Instrument Sans')
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->globalSearchFieldSuffix(fn (): ?string => match (Platform::detect()) {

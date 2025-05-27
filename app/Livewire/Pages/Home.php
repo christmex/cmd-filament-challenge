@@ -44,6 +44,7 @@ class Home extends Component implements HasForms
                     TextInput::make('phone')
                         ->required()
                         ->columnSpanFull()
+                        ->placeholder('Ex: +61431532188')
                         ,
                     Textarea::make('address')
                         ->required()
@@ -56,17 +57,19 @@ class Home extends Component implements HasForms
                             collect(ServiceType::cases())->mapWithKeys(fn ($case) => [
                                 $case->value => $case->label()
                             ])->toArray()
-                            ),
+                        ),
                     DateTimePicker::make('booking_date')
-                        ->required(),
+                        ->required()
+                        ->format('Y-m-d H:i'),
                     TextInput::make('duration')
                         ->integer()
                         ->minValue(1)
                         ->required()
                         ->placeholder(1)
-                        ->suffix('Hour/s'),
+                        ->suffix('hour/s'),
                     Textarea::make('notes')
-                        ->columnSpanFull(),
+                        ->columnSpanFull()
+                        ->placeholder('Give some notes...'),
                 ])->columns(2)
             ])
             ->statePath('data');
@@ -76,13 +79,14 @@ class Home extends Component implements HasForms
     {
         Quote::create($this->form->getState());
         Notification::make()
-            ->title('Berhasil')
+            ->title('Successfully send new quote')
+            ->body('Please check your email to see the quote details.')
             ->success()
+            ->persistent()
             ->send();
 
         // Reinitialize the form to clear its data.
         $this->form->fill();
-
     }
 
     public function render()
