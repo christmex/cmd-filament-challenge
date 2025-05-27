@@ -18,14 +18,12 @@ return new class extends Migration
             $table->string('phone');
             $table->string('address');
             $table->string('service_type');
-            $table->date('booking_date');
-            $table->time('booking_time_start');
-            $table->time('booking_time_end');
+            $table->dateTime('booking_date');
             $table->integer('duration');
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->string('status');
             $table->integer('price');
-            $table->text('rejection_reason');
+            $table->text('rejection_reason')->nullable();
             $table->timestamps();
         });
     }

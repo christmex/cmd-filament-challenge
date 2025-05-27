@@ -19,45 +19,6 @@ class QuoteResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required(),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required(),
-                Forms\Components\TextInput::make('phone')
-                    ->tel()
-                    ->required(),
-                Forms\Components\TextInput::make('address')
-                    ->required(),
-                Forms\Components\TextInput::make('service_type')
-                    ->required(),
-                Forms\Components\DatePicker::make('booking_date')
-                    ->required(),
-                Forms\Components\TextInput::make('booking_time_start')
-                    ->required(),
-                Forms\Components\TextInput::make('booking_time_end')
-                    ->required(),
-                Forms\Components\TextInput::make('duration')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\Textarea::make('notes')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('status')
-                    ->required(),
-                Forms\Components\TextInput::make('price')
-                    ->required()
-                    ->numeric()
-                    ->prefix('$'),
-                Forms\Components\Textarea::make('rejection_reason')
-                    ->required()
-                    ->columnSpanFull(),
-            ]);
-    }
 
     public static function table(Table $table): Table
     {
