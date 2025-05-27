@@ -50,7 +50,6 @@ class Home extends Component implements HasForms
                         ->required()
                         ->columnSpanFull(),
                     Select::make('service_type')
-                        ->label('Service Type')
                         ->columnSpanFull()
                         ->required()
                         ->options(

@@ -2,17 +2,22 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\QuoteResource\Pages;
-use App\Filament\Resources\QuoteResource\RelationManagers;
-use App\Models\Quote;
 use Filament\Forms;
+use Filament\Tables;
+use App\Models\Quote;
 use Filament\Forms\Form;
+use App\Enums\ServiceType;
+use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\IconSize;
-use Filament\Tables;
-use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\QuoteResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\QuoteResource\RelationManagers;
+use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 
 class QuoteResource extends Resource
 {
@@ -24,11 +29,27 @@ class QuoteResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->deferFilters()
+            ->persistColumnSearchesInSession()
+            ->deferLoading()
+            ->searchOnBlur()
+            ->defaultSort('created_at', 'asc')
+            ->paginated([10, 25, 50, 100])
+            // ->filtersFormColumns(2)
+            ->searchPlaceholder('Search: John doe')
+            ->filtersTriggerAction(
+                fn (\Filament\Tables\Actions\Action $action) => $action
+                    ->button()
+                    ->label('Filter'),
+            )
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
+                    ->copyable()
+                    ->description(fn (Model $record) => $record->email)
+                    ->searchable(query: function (Builder $query, string $search): Builder {
+                        return $query->where('name', 'like', "%{$search}%")
+                            ->orWhere('email', 'like', "%{$search}%");
+                    }),
                 Tables\Columns\TextColumn::make('phone')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('address')
@@ -54,8 +75,16 @@ class QuoteResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
-            ])
+                SelectFilter::make('service_type')
+                    ->columnSpanFull()
+                    ->options(
+                        collect(ServiceType::cases())->mapWithKeys(fn ($case) => [
+                            $case->value => $case->label()
+                        ])->toArray()
+                    ),
+                DateRangeFilter::make('created_at'),
+                DateRangeFilter::make('booking_date'),
+            ], layout: FiltersLayout::Modal)
             ->actions([
                 Tables\Actions\EditAction::make()->iconButton()->iconSize(IconSize::Small),
                 Tables\Actions\DeleteAction::make()->iconButton()->iconSize(IconSize::Small),
