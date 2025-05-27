@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\QuoteStatus;
 use App\Enums\ServiceType;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Quote extends Model
@@ -33,5 +34,12 @@ class Quote extends Model
             $quote->status = QuoteStatus::Pending;
             $quote->price = $quote->duration * $quote->service_type->price();
         });
+    }
+
+    public function scopeStatus(Builder $query, QuoteStatus|string $status): Builder
+    {
+        $statusValue = $status instanceof QuoteStatus ? $status->value : QuoteStatus::from($status)->value;
+
+        return $query->where('status', $statusValue);
     }
 }

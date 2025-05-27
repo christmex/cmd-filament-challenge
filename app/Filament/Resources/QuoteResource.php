@@ -8,6 +8,7 @@ use App\Models\Quote;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\IconSize;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -37,13 +38,9 @@ class QuoteResource extends Resource
                 Tables\Columns\TextColumn::make('booking_date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('booking_time_start'),
-                Tables\Columns\TextColumn::make('booking_time_end'),
                 Tables\Columns\TextColumn::make('duration')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('price')
                     ->money()
                     ->sortable(),
@@ -60,8 +57,8 @@ class QuoteResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()->iconButton()->iconSize(IconSize::Small),
+                Tables\Actions\DeleteAction::make()->iconButton()->iconSize(IconSize::Small),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

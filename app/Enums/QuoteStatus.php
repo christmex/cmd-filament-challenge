@@ -32,6 +32,18 @@ enum QuoteStatus: string
         };
     }
 
+    public function icon(): string
+    {
+        return match($this) {
+            self::Pending   => 'heroicon-o-clock',
+            self::Approved  => 'heroicon-o-check-circle',
+            self::Rejected  => 'heroicon-o-x-circle',
+            self::Scheduled => 'heroicon-o-calendar-days',
+            self::Invoiced  => 'heroicon-o-receipt-percent',
+        };
+    }
+
+
     public function canTransitionTo(self $new): bool
     {
         return match ($this) {
