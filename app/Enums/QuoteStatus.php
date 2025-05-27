@@ -21,13 +21,24 @@ enum QuoteStatus: string
         };
     }
 
+    public function actionName(): string
+    {
+        return match($this) {
+            self::Pending => 'Pending',
+            self::Approved => 'Approve',
+            self::Rejected => 'Reject',
+            self::Scheduled => 'Schedule',
+            self::Invoiced => 'Invoice',
+        };
+    }
+
     public function color(): string
     {
         return match($this) {
             self::Pending => 'gray',
-            self::Approved => 'green',
-            self::Rejected => 'red',
-            self::Scheduled => 'blue',
+            self::Approved => 'success',
+            self::Rejected => 'danger',
+            self::Scheduled => 'info',
             self::Invoiced => 'purple',
         };
     }

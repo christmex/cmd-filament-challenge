@@ -2,28 +2,28 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
 use Filament\Tables;
 use App\Models\Quote;
-use Filament\Forms\Form;
+use App\Enums\QuoteStatus;
 use App\Enums\ServiceType;
 use Filament\Tables\Table;
+use Filament\Support\RawJs;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\IconSize;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\QuoteResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\QuoteResource\RelationManagers;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 
 class QuoteResource extends Resource
 {
     protected static ?string $model = Quote::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
 
     public static function table(Table $table): Table
@@ -60,18 +60,15 @@ class QuoteResource extends Resource
                     ->badge()
                     ->color(fn ($record) => $record->service_type->color()),
                 Tables\Columns\TextColumn::make('booking_date')
-                    ->date()
+                    ->dateTime('Y-m-d H:i')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('duration')
-                    ->numeric()
-                    ->sortable(),
+                    ->numeric(),
                 Tables\Columns\TextColumn::make('price')
-                    ->money()
-                    ->sortable(),
+                    ->money(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -89,8 +86,37 @@ class QuoteResource extends Resource
                 DateRangeFilter::make('booking_date'),
             ], layout: FiltersLayout::Modal)
             ->actions([
-                Tables\Actions\EditAction::make()->iconButton()->iconSize(IconSize::Small),
-                Tables\Actions\DeleteAction::make()->iconButton()->iconSize(IconSize::Small),
+                // Tables\Actions\EditAction::make()->iconButton()->iconSize(IconSize::Small),
+                // Tables\Actions\DeleteAction::make()->iconButton()->iconSize(IconSize::Small),
+                Tables\Actions\Action::make(QuoteStatus::Approved->actionName())
+                    ->iconButton()
+                    ->tooltip(QuoteStatus::Approved->actionName())
+                    ->icon(QuoteStatus::Approved->icon())
+                    // ->iconSize(IconSize::Small)
+                    ->requiresConfirmation()
+                    ->modalIcon(QuoteStatus::Approved->icon())
+                    ->color(QuoteStatus::Approved->color())
+                    ->modalIconColor(QuoteStatus::Approved->color())
+                    ->form([
+                        TextInput::make('price')
+                            ->required()
+                            ->prefix('$')
+                            ->mask(RawJs::make('$money($input)'))
+                            ->stripCharacters(',')
+                            ->numeric()
+                            ->default(function(Quote $record){
+                                return $record->price;
+                            })
+                            ->minValue(0)
+                    ])
+                    ->action(function(Quote $record, array $data){
+                        $record->update(['price' => $data['price']]);
+                        Notification::make()
+                            ->title('Quote Approved')
+                            ->body('Email sent to the user')
+                            ->success()
+                            ->send();
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
