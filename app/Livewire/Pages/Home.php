@@ -79,7 +79,7 @@ class Home extends Component implements HasForms
                     DateTimePicker::make('booking_date')
                         ->required()
                         ->minDate('today')
-                        ->format('Y-m-d H:i'),
+                        ->seconds(false),
                     TextInput::make('duration')
                         ->integer()
                         ->minValue(1)

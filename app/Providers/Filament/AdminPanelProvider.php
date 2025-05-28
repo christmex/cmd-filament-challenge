@@ -65,6 +65,7 @@ class AdminPanelProvider extends PanelProvider
             ->topNavigation()
             ->databaseTransactions()
             ->profile(isSimple: false)
+            ->darkMode(false)
             ->maxContentWidth(MaxWidth::Full)
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->brandLogo(asset('logo.svg'))
