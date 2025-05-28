@@ -34,7 +34,7 @@ class QuoteResource extends Resource
             ->persistColumnSearchesInSession()
             ->deferLoading()
             ->searchOnBlur()
-            ->defaultSort('created_at', 'asc')
+            ->defaultSort('created_at', 'desc')
             ->paginated([10, 25, 50, 100])
             ->filtersFormColumns(2)
             ->searchPlaceholder('Search: Name|Email|Phone|Address')
@@ -189,9 +189,9 @@ class QuoteResource extends Resource
                     ->url(fn(Quote $record) => self::getUrl('detail',['record' => $record->id]))
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Tables\Actions\BulkActionGroup::make([
+                //     Tables\Actions\DeleteBulkAction::make(),
+                // ]),
             ]);
     }
 

@@ -4,9 +4,9 @@
 - [x] buat quote service type enum
 - [x] buat quote model dan migration
 - [ ] install pest
+- [x] install Date Range Filter and Picker
 - [ ] install phpstan
 - [ ] install pint
-- [x] install Date Range Filter and Picker
 
 
 ### High (MVP)
@@ -19,12 +19,12 @@
 - [x] Reject a quote with a reason.
 - [x] Mark an approved quote scheduled.
 - [x] Mark a scheduled quote as invoiced.
-- [ ] View full quote details, including an estimated, automatically-generated price.
+- [x] View full quote details, including an estimated, automatically-generated price.
 
 ### Medium
-- [ ] set .env mail using mailtrap
-- [ ] Send email to user when quote submitted
-- [ ] Send email to admin when new quote submitted
+- [x] set .env mail using mailtrap
+- [x] Send email to user when quote submitted
+- [x] Send email to admin when new quote submitted
 - [ ] Send email to user when quote approved with the price
 - [ ] Send email to user when quote rejected with the reject reason
 

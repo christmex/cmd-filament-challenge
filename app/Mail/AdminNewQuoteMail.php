@@ -9,16 +9,18 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class NewQuoteMail extends Mailable
+class AdminNewQuoteMail extends Mailable
 {
     use Queueable, SerializesModels;
+
+    public $record;
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($record)
     {
-        //
+        $this->record = $record;
     }
 
     /**
@@ -27,7 +29,7 @@ class NewQuoteMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Quote Mail',
+            subject: 'New Quote Created',
         );
     }
 
@@ -37,7 +39,7 @@ class NewQuoteMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.new-quote',
+            view: 'mail.admin-new-quote-mail',
         );
     }
 

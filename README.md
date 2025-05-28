@@ -18,3 +18,5 @@ Saya tidak menggunakan pendekatan TDD, dikarenakan keterbatasan waktu yang ada, 
 - saya menggunakan defer untuk filter dan search agar tidak terlalu sering melakukan request ke database
 - kenapa design admin panel sya menggunakan topnavigation, karna saya rasa itu lebih clean dan table bsa terlihat semua, juga menu yang ada tidak begitu banyak, jadi sngat cocok untuk di taruh di bagian atas header sja
 - kenapa saya tidak membuat custom action aksi pending, reject, schedule dll? krna ini hanya digunakan sekali dan dalam kasus ini tidak akan digunakan berulang, tapi jika digunakan berlang maka sebaiknya sya akan pisah ke custom action
+- kenapa saya tidak membuat role dan user manage, di kemudian hari jika ini memang akan digunakan untuk production maka akan dibuatkan sesuai dengan kebutuhan
+- di email sya menggunakan table templating, karna keterbatasan support flex maupun grid di ekosistem email

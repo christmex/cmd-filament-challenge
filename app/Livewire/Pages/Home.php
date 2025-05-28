@@ -8,6 +8,8 @@ use Livewire\Component;
 use Filament\Forms\Form;
 use App\Enums\ServiceType;
 use App\Mail\NewQuoteMail;
+use App\Mail\UserNewQuoteMail;
+use App\Mail\AdminNewQuoteMail;
 use Filament\Forms\Components\Group;
 use Illuminate\Support\Facades\Mail;
 use Filament\Forms\Components\Select;
@@ -82,16 +84,16 @@ class Home extends Component implements HasForms
     public function create(): void
     {
         $data = $this->form->getState();
-        Quote::create($data);
+        $record = Quote::create($data);
         Notification::make()
-            ->title('Successfully send new quote')
+            ->title('Successfully create new quote')
             ->body('Please check your email to see the quote details.')
             ->success()
             ->send();
 
-        defer(function()use($data){
-            // Mail::to(config('mail.from.address'))->send(new NewQuoteMail());
-            Mail::to($data['email'])->send(new NewQuoteMail());
+        defer(function() use($data, $record){
+            Mail::to($data['email'])->send(new UserNewQuoteMail($record));
+            Mail::to(config('mail.from.address'))->send(new AdminNewQuoteMail($record));
         });
 
         // Reinitialize the form to clear its data.
