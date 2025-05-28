@@ -64,7 +64,6 @@ class QuoteResource extends Resource
                     ->badge()
                     ->color(fn ($record) => $record->service_type->color()),
                 Tables\Columns\TextColumn::make('booking_date')
-                    ->dateTime('Y-m-d H:i')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('duration')
                     ->numeric(),

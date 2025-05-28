@@ -35,7 +35,8 @@ class QuoteDetails extends Page
     protected function getHeaderActions(): array
     {
         return [
-            Actions\Action::make('cancel')
+            Actions\Action::make('back')
+                ->label('Back to list')
                 ->alpineClickHandler('document.referrer ? window.history.back() : (window.location.href = ' . Js::from($this->previousUrl ?? static::getResource()::getUrl()) . ')')
                 ->color('gray'),
         ];

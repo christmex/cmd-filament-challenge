@@ -21,11 +21,13 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Concerns\InteractsWithForms;
+use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
+use DanHarrin\LivewireRateLimiting\WithRateLimiting;
 
 class Home extends Component implements HasForms
 {
     use InteractsWithForms;
-    
+    use WithRateLimiting;
     public ?array $data = [];
     
     public function mount(): void
@@ -33,6 +35,20 @@ class Home extends Component implements HasForms
         $this->form->fill();
     }
     
+    protected function getRateLimitedNotification(TooManyRequestsException $exception): ?Notification
+    {
+        return Notification::make()
+            ->title(__('filament-panels::pages/auth/login.notifications.throttled.title', [
+                'seconds' => $exception->secondsUntilAvailable,
+                'minutes' => $exception->minutesUntilAvailable,
+            ]))
+            ->body(array_key_exists('body', __('filament-panels::pages/auth/login.notifications.throttled') ?: []) ? __('filament-panels::pages/auth/login.notifications.throttled.body', [
+                'seconds' => $exception->secondsUntilAvailable,
+                'minutes' => $exception->minutesUntilAvailable,
+            ]) : null)
+            ->danger();
+    }
+
     public function form(Form $form): Form
     {
         return $form
@@ -81,8 +97,16 @@ class Home extends Component implements HasForms
             ->statePath('data');
     }
     
+    
     public function create(): void
     {
+        try {
+            $this->rateLimit(5);
+        } catch (TooManyRequestsException $exception) {
+            $this->getRateLimitedNotification($exception)?->send();
+            return;
+        }
+        
         $data = $this->form->getState();
         $record = Quote::create($data);
         Notification::make()

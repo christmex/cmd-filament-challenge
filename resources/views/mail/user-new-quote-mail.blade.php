@@ -59,7 +59,7 @@
                     </h1>
                     <br>
                     <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #555555; font-family: 'Open Sans', Arial, sans-serif;text-align: left;">
-                        If this was a mistake please contact us.
+                        If this was a mistake just ignore it.
                     </p>
                 </td>
             </table>

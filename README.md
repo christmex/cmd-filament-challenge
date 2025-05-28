@@ -20,3 +20,5 @@ Saya tidak menggunakan pendekatan TDD, dikarenakan keterbatasan waktu yang ada, 
 - kenapa saya tidak membuat custom action aksi pending, reject, schedule dll? krna ini hanya digunakan sekali dan dalam kasus ini tidak akan digunakan berulang, tapi jika digunakan berlang maka sebaiknya sya akan pisah ke custom action
 - kenapa saya tidak membuat role dan user manage, di kemudian hari jika ini memang akan digunakan untuk production maka akan dibuatkan sesuai dengan kebutuhan
 - di email sya menggunakan table templating, karna keterbatasan support flex maupun grid di ekosistem email
+- akan lebih bagus jika kita bsa menambahkan log, siapa yang approve dan reject, setiap action yang dilakukan admin harus tercatat, supaya kita bisa melakukan audit, tapi saya tidak membuatnya untuk contoh ini agar lebih sismple
+- akan lebih bagus jika kita tambah reminder di hari H reminder untuk admin dan user, di hari H akan ada perbaikan dll yang akan dilaksanakan

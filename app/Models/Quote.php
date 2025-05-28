@@ -5,8 +5,10 @@ namespace App\Models;
 use App\Enums\QuoteStatus;
 use App\Enums\ServiceType;
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Quote extends Model
 {
@@ -29,6 +31,14 @@ class Quote extends Model
         'price',
         'rejection_reason',
     ];
+
+
+    protected function bookingDate(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => Carbon::parse($value)->format('l, F j, Y \a\t g:i A'),
+        );
+    }
 
     protected static function booted(): void
     {

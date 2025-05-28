@@ -29,9 +29,8 @@
 - [x] Send email to user when quote rejected with the reject reason
 
 ### Low
-- [ ] look for optimize the code
-- [ ] add try and catch in create() Home
-- [ ] add throller if submitted to many
+- [x] look for optimize the code
+- [x] add throller if submitted to many
 - [x] add custom theme
 - [ ] add testing for mvp feature
 - [ ] See scheduled quotes on a calendar page.

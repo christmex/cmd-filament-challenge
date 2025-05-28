@@ -75,7 +75,7 @@
                     </h1>
                     <br>
                     <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #555555; font-family: 'Open Sans', Arial, sans-serif;text-align: left;">
-                        Please open <a href="{{ Filament\Pages\Dashboard::getUrl() }}">admin panel</a> for manage this new quote
+                        Please open <a href="{{ Filament\Pages\Dashboard::getUrl() }}">admin panel</a> to manage this new quote
                     </p>
                     
                 </td>

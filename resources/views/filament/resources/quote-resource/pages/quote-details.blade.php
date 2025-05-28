@@ -6,25 +6,24 @@
             <h2 class="font-semibold text-lg mb-4">Service Details</h2>
             <ul class="text-sm text-gray-700 space-y-2">
                 <li class="flex gap-2">
-                    <span class="font-bold">Service Type:</span> 
-                    <x-filament::badge size="xs" color="{{ $record->service_type->color() }}" class="inline-block px-2">
-                        {{ $record->service_type }}
-                    </x-filament::badge>
-                </li>
-                <li class="flex gap-2">
                     <span class="font-bold">Status:</span> 
                     <x-filament::badge size="xs" color="{{ $record->status->color() }}" class="inline-block px-2">
                         {{ $record->status }}
                     </x-filament::badge>
                 </li>
+                <li class="flex gap-2">
+                    <span class="font-bold">Service Type:</span> 
+                    <x-filament::badge size="xs" color="{{ $record->service_type->color() }}" class="inline-block px-2">
+                        {{ $record->service_type }}
+                    </x-filament::badge>
+                </li>
                 <li><span class="font-bold">Booking Date:</span> {{ $record->booking_date }}</li>
-                <li><span class="font-bold">Finish Estimate:</span> {{ $record->booking_date }}</li>
                 <li><span class="font-bold">Duration:</span> {{ $record->duration }} hour(s)</li>
-                <li><span class="font-bold">Price:</span> ${{ number_format($record->price) }}</li>
+                <li><span class="font-bold">Estimate Price:</span> ${{ number_format($record->price) }}</li>
+                <li><span class="font-bold">User Notes:</span> {{ $record->notes ?: '-' }}</li>
                 @if ($record->rejection_reason)
                 <li class="text-red-500"><span class="font-bold">Rejection Reason:</span> {{ $record->rejection_reason }}</li>
                 @endif
-                <li><span class="font-bold">Notes:</span> {{ $record->notes ?: '-' }}</li>
             </ul>
         </div>
 
