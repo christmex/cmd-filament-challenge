@@ -25,8 +25,8 @@
 - [x] set .env mail using mailtrap
 - [x] Send email to user when quote submitted
 - [x] Send email to admin when new quote submitted
-- [ ] Send email to user when quote approved with the price
-- [ ] Send email to user when quote rejected with the reject reason
+- [x] Send email to user when quote approved with the price
+- [x] Send email to user when quote rejected with the reject reason
 
 ### Low
 - [ ] look for optimize the code
