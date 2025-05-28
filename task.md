@@ -29,9 +29,9 @@
 - [x] Send email to user when quote rejected with the reject reason
 
 ### Low
+- [x] Store and format dates in UTC.
 - [x] look for optimize the code
 - [x] add throller if submitted to many
 - [x] add custom theme
 - [ ] add testing for mvp feature
 - [ ] See scheduled quotes on a calendar page.
-- [x] Store and format dates in UTC.

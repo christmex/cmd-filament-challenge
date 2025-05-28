@@ -22,3 +22,4 @@ Saya tidak menggunakan pendekatan TDD, dikarenakan keterbatasan waktu yang ada, 
 - di email sya menggunakan table templating, karna keterbatasan support flex maupun grid di ekosistem email
 - akan lebih bagus jika kita bsa menambahkan log, siapa yang approve dan reject, setiap action yang dilakukan admin harus tercatat, supaya kita bisa melakukan audit, tapi saya tidak membuatnya untuk contoh ini agar lebih sismple
 - akan lebih bagus jika kita tambah reminder di hari H reminder untuk admin dan user, di hari H akan ada perbaikan dll yang akan dilaksanakan
+- fitur email confirmation, biar g spam ke orang lain
