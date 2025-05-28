@@ -1,38 +1,40 @@
-### Pre Dev
-- [x] Setup laravel + filament
-- [x] buat quote status enum
-- [x] buat quote service type enum
-- [x] buat quote model dan migration
-- [x] install pest
-- [x] install Date Range Filter and Picker
-- [ ] install phpstan
-- [ ] install pint
+## Development Task Checklist
 
+### Pre-Development
+- [x] Set up Laravel and Filament
+- [x] Created `QuoteStatusEnum`
+- [x] Created `ServiceTypeEnum`
+- [x] Created `Quote` model and migration
+- [x] Installed Pest for testing
+- [x] Installed Date Range Filter and Date Picker package
+- [x] Installed PHPStan for static analysis
+- [x] Installed Laravel Pint for code style formatting
 
-### High (MVP)
-- [x] user can send quote from frontend using filament form if success show notif 
-- [x] View a list of all quotes
-- [x] Filter quotes by status, service, created date and booking date
-- [x] Search by name, email, phone or address
-- [x] Sort by created date or booking date
-- [x] Approve a quote, allowing staff to override and set the price if necessary.
-- [x] Reject a quote with a reason.
-- [x] Mark an approved quote scheduled.
-- [x] Mark a scheduled quote as invoiced.
-- [x] View full quote details, including an estimated, automatically-generated price.
+### High Priority (MVP)
+- [x] Users can submit a quote request via a public Filament form with success notification
+- [x] Display a list of all submitted quotes in the admin panel
+- [x] Enable filtering by status, service type, created date, and booking date
+- [x] Enable searching by name, email, phone number, or address
+- [x] Enable sorting by created date and booking date
+- [x] Approve quotes with the ability for staff to override the price
+- [x] Reject quotes with a required rejection reason
+- [x] Mark approved quotes as scheduled
+- [x] Mark scheduled quotes as invoiced
+- [x] View full quote details including automatically calculated estimated price
 
-### Medium
-- [x] set .env mail using mailtrap
-- [x] Send email to user when quote submitted
-- [x] Send email to admin when new quote submitted
-- [x] Send email to user when quote approved with the price
-- [x] Send email to user when quote rejected with the reject reason
+### Medium Priority
+- [x] Configure email using Mailtrap in `.env`
+- [x] Send confirmation email to customer upon quote submission
+- [x] Notify admin via email when a new quote is submitted
+- [x] Send email to customer when a quote is approved (including the final price)
+- [x] Send email to customer when a quote is rejected (including the reason)
 
-### Low
-- [x] Store and format dates in UTC.
-- [x] look for optimize the code
-- [x] add throller if submitted to many
-- [x] add custom theme
-- [ ] See scheduled quotes on a calendar page.
-- [x] add testing for mvp feature
-- [x] create script for setup this app
+### Low Priority
+- [x] Store and format all dates in UTC
+- [x] Perform code optimization and cleanup
+- [x] Implement throttling to prevent spam submissions
+- [x] Apply custom theme styling
+- [ ] Display scheduled quotes on a calendar view (Pending)
+- [x] Add basic test coverage for MVP functionality
+- [x] Create setup script for local development
+- [ ] Deploy application to a server for live demo (Pending)

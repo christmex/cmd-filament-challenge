@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Stop if vendor folder already exists
+if [ -d "vendor" ]; then
+    echo "✅ Project already set up. Skipping setup steps."
+    exit 0
+fi
+
+# Step 1: Copy .env if not exist
+if [ ! -f ".env" ]; then
+    cp .env.example .env
+    echo "📄 .env file created."
+fi
+
+# Step 2: Install PHP dependencies
+composer install
+
+# Step 3: Generate Laravel app key if not already present
+if ! grep -q '^APP_KEY=' .env || grep -q '^APP_KEY=$' .env; then
+    php artisan key:generate
+    echo "🔐 APP_KEY generated."
+else
+    echo "🔐 APP_KEY already exists. Skipping key generation."
+fi
+
+# Step 4: Install JS dependencies
+npm install
+
+# Step 5: Build frontend assets
+npm run build
+
+# Step 6: Run DB migrations
+php artisan migrate
+
+# Step 7: Create initial Filament user
+php artisan make:filament-user
+
+echo "🎉 Project setup complete."

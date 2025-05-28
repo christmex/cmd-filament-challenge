@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Colors for output
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+echo -e "${GREEN}Running code quality checks...${NC}\n"
+
+# Run Laravel Pint
+echo -e "${GREEN}Running Laravel Pint...${NC}"
+if ./vendor/bin/pint; then
+    echo -e "${GREEN}✓ Laravel Pint completed successfully${NC}\n"
+else
+    echo -e "${RED}✗ Laravel Pint failed${NC}\n"
+    exit 1
+fi
+
+# Run PHPStan
+echo -e "${GREEN}Running PHPStan...${NC}"
+if ./vendor/bin/phpstan analyse app --memory-limit=512M; then
+    echo -e "${GREEN}✓ PHPStan completed successfully${NC}\n"
+else
+    echo -e "${RED}✗ PHPStan failed${NC}\n"
+    exit 1
+fi
+
+# Run Tests
+echo -e "${GREEN}Running tests...${NC}"
+if php artisan test --stop-on-failure; then
+    echo -e "${GREEN}✓ Tests completed successfully${NC}\n"
+else
+    echo -e "${RED}✗ Tests failed${NC}\n"
+    exit 1
+fi
+
+echo -e "${GREEN}All checks completed successfully!${NC}" 

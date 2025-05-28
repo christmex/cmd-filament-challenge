@@ -1,31 +1,54 @@
 ### Summary
+This is a minimal implementation of the quoting system based on the brief. I prioritized core functionality, including public quote submission, admin quote management via Filament, basic filtering, status transitions (approve, reject, schedule, invoice), and email notifications.
+
+The goal was to build a clean, working MVP within the 2-hour constraint, focusing on pragmatic delivery over over-engineered abstractions.
 
 
 ### What you chose not to build and why (if applicable)
+Test-driven development (TDD):
+Due to time constraints, I did not adopt a TDD approach. However, I included basic business logic tests for core functionality. If extended, the system should include full test coverage using Pest and ideally move side effects like emails into jobs for easier testing.
+
+Database enums for status and service types:
+I stored service types and statuses as strings rather than database-level enums to keep schema changes minimal and flexible. This avoids potential migration issues when enum values need to change.
+
+No role-based user management:
+Since this is a single-user internal admin panel for now, I did not implement user roles. In a production scenario with multiple staff roles, I would integrate proper role-based access control using Laravel's policies or Spatie Permissions.
+
+Not using Sushi or external config for static data:
+I chose PHP enums instead of packages like Sushi because enums are native, simple, and sufficient for this use case.
+
+Email sending not deferred via job queue:
+I called email sending directly inside actions to keep it simple and avoid job setup. In production, this should be offloaded to jobs for better performance and testability.
+
+No custom action classes:
+For actions like approve/reject/schedule, I used inline logic within Filament's resource actions. If these actions were reused elsewhere or became more complex, I would extract them into custom actions or services.
+
+No audit log:
+I did not include admin action tracking (e.g., who approved or rejected a quote). In a production build, I would add an audit_logs table or use an activity logger package to track all status changes for accountability.
+
+No email confirmation for quote submission:
+To keep things simple, I skipped customer email confirmation (e.g., to prevent spam). Ideally, the system would require email verification or rate-limiting.
+
+No reminder system:
+While helpful, I skipped implementing reminder emails (e.g., day-of-service reminder for staff/customers) to stay within the 2-hour limit. This could be added via scheduled jobs.
+
+Email design limited to tables:
+I used simple table-based email layouts due to poor support for CSS Flex/Grid in most email clients.
+
+Admin layout using top navigation instead of sidebar:
+Since there are only a few pages, I opted for top navigation for a cleaner and more spacious UI, especially for table-heavy views.
+
+Used SQLite for local development:
+Chosen for its simplicity, no setup time, and compatibility with Laravel.
+
+Did not include email-sending tests:
+Email logic was directly invoked (not job-dispatched), making it harder to test. In a production-ready app, this would be extracted and tested independently.
 
 
 ### How you would build on the application to make it client-ready
-
-
-### 
-Saya tidak menggunakan pendekatan TDD, dikarenakan keterbatasan waktu yang ada, sehingga, sya menaruh
-
-- kenapa di database sya menyimpan status dan service type sebagai string dan bukan enum karna jika sya menggunakan enum dimasa depan jika terdapat perubahan, akan sangat susah dan menggangu jika harus merubah-ubah struktur tabel di database, oleh sebab itu, saya rasa ini harus di taruh d luar database
-- kenapa saya menggunakan enum dibandingkan sushi untuk menyimpan data static seperti status dan service type, karna menggunakan enum sudah sangat cukup untuk kasus ini.
-- kenapa sya melakukan setup menggunakan laravel 11 dan filament 3 di awal? agar lebih mudah setup tailwind, enghindari error yang tidak diperlukan, mengambil versi stabil kmudian sisanya saya tinggal update ke laravel 12, tidak ada perbedaan signifikan di laravel 11 dan 12, yang sya lakukan adalah menghindari melakukan downgrade tailwind4 ke 3 karna akan menghabiskan waktu untuk mengurus bug dari downgrade tailwind
-- Kenapa saya menggunakan tabs untuk filter status, secara UX inipendekatan yang lebih tepat karna to the point, sehingga admin yang lht lngsung tau berdasarkan status
-- kenapa saya menaruh send email di action karna saya ingin membuat tetap simple dan tidak over clean code
-- saya menggunakan defer untuk filter dan search agar tidak terlalu sering melakukan request ke database
-- kenapa design admin panel sya menggunakan topnavigation, karna saya rasa itu lebih clean dan table bsa terlihat semua, juga menu yang ada tidak begitu banyak, jadi sngat cocok untuk di taruh di bagian atas header sja
-- kenapa saya tidak membuat custom action aksi pending, reject, schedule dll? krna ini hanya digunakan sekali dan dalam kasus ini tidak akan digunakan berulang, tapi jika digunakan berlang maka sebaiknya sya akan pisah ke custom action
-- kenapa saya tidak membuat role dan user manage, di kemudian hari jika ini memang akan digunakan untuk production maka akan dibuatkan sesuai dengan kebutuhan
-- di email sya menggunakan table templating, karna keterbatasan support flex maupun grid di ekosistem email
-- akan lebih bagus jika kita bsa menambahkan log, siapa yang approve dan reject, setiap action yang dilakukan admin harus tercatat, supaya kita bisa melakukan audit, tapi saya tidak membuatnya untuk contoh ini agar lebih sismple
-- akan lebih bagus jika kita tambah reminder di hari H reminder untuk admin dan user, di hari H akan ada perbaikan dll yang akan dilaksanakan
-- fitur email confirmation, biar g spam ke orang lain
-- why im using defer for sending email, for now i want to keep it simple, i know we can use job for that, but for now i think it sutable for now
-- i can use clean code, like spread code the service but, i think we need to make it short to the point and simple
-- in my user test, i dont add the email send test
-- i dont want to over clean code, like if its simple no need to split it 
-- dikarenakan menggunakan defer saat kirim email, maka saya tidak bisa melakukan test pada fungsi kirim email, untuk mengatasi ini sebenarnya kita hanya perlu membuat Job agar lebih testable, dibanding pakai defer, tapi seperti yang saya bilang saya membuat ini sesimple mungkin untuk tujuan demo saja.
-- saya pakai sqllite untuk database agar lebih simple
+- Implement queue jobs for all email dispatching to improve responsiveness and allow for easier testing.
+- Add full test coverage using Pest.
+- Build an audit trail system to log every status change and who made it.
+- Enable email confirmation & spam protection via token-based confirmation links.
+- Enhance dashboard with metrics: pending quotes, revenue from invoiced jobs, approval rates.
+- Add service-day reminders using scheduled notifications for customers and staff.
