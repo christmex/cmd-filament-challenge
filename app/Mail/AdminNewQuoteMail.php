@@ -28,7 +28,7 @@ class AdminNewQuoteMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Quote Created',
+            subject: 'CMD Software Quote - New Quote Created',
         );
     }
 

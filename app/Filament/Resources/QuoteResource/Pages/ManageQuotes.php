@@ -21,7 +21,6 @@ class ManageQuotes extends ManageRecords
     public function getSubheading(): ?string
     {
         return 'Track, review, and schedule incoming service quotes';
-
     }
 
     public function getTabs(): array
@@ -29,7 +28,7 @@ class ManageQuotes extends ManageRecords
         $tabs = [];
 
         foreach (QuoteStatus::cases() as $case) {
-            $tabs[$case->value] = Tab::make($case->label()) // optional custom label
+            $tabs[$case->value] = Tab::make($case->label())
                 ->icon($case->icon())
                 ->badge(Quote::query()->where('status', $case->value)->count())
                 ->badgeColor('warning')
