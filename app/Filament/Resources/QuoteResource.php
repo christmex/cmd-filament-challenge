@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms\Components\Textarea;
 use Filament\Tables;
 use App\Models\Quote;
 use App\Enums\QuoteStatus;
@@ -10,7 +9,11 @@ use App\Enums\ServiceType;
 use Filament\Tables\Table;
 use Filament\Support\RawJs;
 use Filament\Resources\Resource;
+use App\Mail\UserApprovedQuoteMail;
+use App\Mail\UserRejectedQuoteMail;
 use Filament\Support\Enums\IconSize;
+use Illuminate\Support\Facades\Mail;
+use Filament\Forms\Components\Textarea;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -115,6 +118,11 @@ class QuoteResource extends Resource
                             'price' => $data['price'],
                             'status' => QuoteStatus::Approved,
                         ]);
+
+                        defer(function() use($record){
+                            Mail::to($record->email)->send(new UserApprovedQuoteMail($record));
+                        });
+                        
                         Notification::make()
                             ->title('Quote Approved')
                             ->body('Email sent to the user')
@@ -139,6 +147,11 @@ class QuoteResource extends Resource
                             'rejection_reason' => $data['rejection_reason'],
                             'status' => QuoteStatus::Rejected,
                         ]);
+
+                        defer(function() use($record){
+                            Mail::to($record->email)->send(new UserRejectedQuoteMail($record));
+                        });
+
                         Notification::make()
                             ->title('Quote Rejected')
                             ->body('Email sent to the user')

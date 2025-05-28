@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class UserNewQuoteMail extends Mailable
+class UserRejectedQuoteMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -29,7 +29,7 @@ class UserNewQuoteMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'CMD Software Quote - Quote Created',
+            subject: 'CMD Software Quote - Quote Rejected',
         );
     }
 
@@ -39,7 +39,7 @@ class UserNewQuoteMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.user-new-quote-mail',
+            view: 'mail.user-rejected-quote-mail',
         );
     }
 
