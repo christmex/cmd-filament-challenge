@@ -1,3 +1,7 @@
+### Note
+- run ``` chmod +x ./setup && ./setup  ``` for quick setup.
+
+
 ### Summary
 This is a minimal implementation of the quoting system based on the brief. I prioritized core functionality, including public quote submission, admin quote management via Filament, basic filtering, status transitions (approve, reject, schedule, invoice), and email notifications.
 The goal was to build a clean, working MVP within the 2-hour constraint, focusing on pragmatic delivery over over-engineered abstractions.
