@@ -1,12 +1,8 @@
 <?php 
 
-use App\Models\Quote;
 use Livewire\Livewire;
 use App\Enums\ServiceType;
 use App\Livewire\Pages\Home;
-use App\Services\QuoteMailer;
-use App\Mail\UserNewQuoteMail;
-use Illuminate\Support\Facades\Mail;
 
 
 test('user can access the form', function () {
@@ -26,5 +22,6 @@ it('submitting the form sends a notification', function () {
         ->set('data.notes', 'Another note')
         ->call('create')
         ->assertNotified('Successfully create new quote');
+        
 });
 

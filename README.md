@@ -28,3 +28,4 @@ Saya tidak menggunakan pendekatan TDD, dikarenakan keterbatasan waktu yang ada, 
 - in my user test, i dont add the email send test
 - i dont want to over clean code, like if its simple no need to split it 
 - dikarenakan menggunakan defer saat kirim email, maka saya tidak bisa melakukan test pada fungsi kirim email, untuk mengatasi ini sebenarnya kita hanya perlu membuat Job agar lebih testable, dibanding pakai defer, tapi seperti yang saya bilang saya membuat ini sesimple mungkin untuk tujuan demo saja.
+- saya pakai sqllite untuk database agar lebih simple
