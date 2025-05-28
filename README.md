@@ -4,17 +4,9 @@ The goal was to build a clean, working MVP within the 2-hour constraint, focusin
 
 
 ### What you chose not to build and why (if applicable)
-- Test-driven development (TDD):
-Due to time constraints, I did not adopt a TDD approach. However, I included basic business logic tests for core functionality. If extended, the system should include full test coverage using Pest and ideally move side effects like emails into jobs for easier testing.
-
-- Database enums for status and service types:
-I stored service types and statuses as strings rather than database-level enums to keep schema changes minimal and flexible. This avoids potential migration issues when enum values need to change.
 
 - No role-based user management:
 Since this is a single-user internal admin panel for now, I did not implement user roles. In a production scenario with multiple staff roles, I would integrate proper role-based access control using Laravel's policies or Spatie Permissions.
-
-- Not using Sushi or external config for static data:
-I chose PHP enums instead of packages like Sushi because enums are native, simple, and sufficient for this use case.
 
 - Email sending not deferred via job queue:
 I called email sending directly inside actions to keep it simple and avoid job setup. In production, this should be offloaded to jobs for better performance and testability.
@@ -30,9 +22,6 @@ To keep things simple, I skipped customer email confirmation (e.g., to prevent s
 
 - No reminder system:
 While helpful, I skipped implementing reminder emails (e.g., day-of-service reminder for staff/customers) to stay within the 2-hour limit. This could be added via scheduled jobs.
-
-- Used SQLite for local development:
-Chosen for its simplicity, no setup time, and compatibility with Laravel.
 
 - Did not include email-sending tests:
 I used Laravel’s defer() function to send emails after the response is returned. Because of this, the email logic can't be tested directly. In a production setup, I would move the email logic into a job to make it testable.
