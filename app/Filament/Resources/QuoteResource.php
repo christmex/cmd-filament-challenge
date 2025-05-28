@@ -8,6 +8,7 @@ use App\Enums\QuoteStatus;
 use App\Enums\ServiceType;
 use Filament\Tables\Table;
 use Filament\Support\RawJs;
+use App\Services\QuoteMailer;
 use Filament\Resources\Resource;
 use App\Mail\UserApprovedQuoteMail;
 use App\Mail\UserRejectedQuoteMail;
@@ -119,7 +120,7 @@ class QuoteResource extends Resource
                         ]);
 
                         defer(function() use($record){
-                            Mail::to($record->email)->send(new UserApprovedQuoteMail($record));
+                            app(QuoteMailer::class)->sendUserApproved($record);
                         });
                         
                         Notification::make()
@@ -148,7 +149,7 @@ class QuoteResource extends Resource
                         ]);
 
                         defer(function() use($record){
-                            Mail::to($record->email)->send(new UserRejectedQuoteMail($record));
+                            app(QuoteMailer::class)->sendUserRejected($record);
                         });
 
                         Notification::make()

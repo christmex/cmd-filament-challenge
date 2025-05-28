@@ -23,3 +23,8 @@ Saya tidak menggunakan pendekatan TDD, dikarenakan keterbatasan waktu yang ada, 
 - akan lebih bagus jika kita bsa menambahkan log, siapa yang approve dan reject, setiap action yang dilakukan admin harus tercatat, supaya kita bisa melakukan audit, tapi saya tidak membuatnya untuk contoh ini agar lebih sismple
 - akan lebih bagus jika kita tambah reminder di hari H reminder untuk admin dan user, di hari H akan ada perbaikan dll yang akan dilaksanakan
 - fitur email confirmation, biar g spam ke orang lain
+- why im using defer for sending email, for now i want to keep it simple, i know we can use job for that, but for now i think it sutable for now
+- i can use clean code, like spread code the service but, i think we need to make it short to the point and simple
+- in my user test, i dont add the email send test
+- i dont want to over clean code, like if its simple no need to split it 
+- dikarenakan menggunakan defer saat kirim email, maka saya tidak bisa melakukan test pada fungsi kirim email, untuk mengatasi ini sebenarnya kita hanya perlu membuat Job agar lebih testable, dibanding pakai defer, tapi seperti yang saya bilang saya membuat ini sesimple mungkin untuk tujuan demo saja.

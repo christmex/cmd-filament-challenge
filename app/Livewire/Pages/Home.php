@@ -8,6 +8,7 @@ use Livewire\Component;
 use Filament\Forms\Form;
 use App\Enums\ServiceType;
 use App\Mail\NewQuoteMail;
+use App\Services\QuoteMailer;
 use App\Mail\UserNewQuoteMail;
 use App\Mail\AdminNewQuoteMail;
 use Filament\Forms\Components\Group;
@@ -21,14 +22,19 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Concerns\InteractsWithForms;
-use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
+use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 
 class Home extends Component implements HasForms
 {
     use InteractsWithForms;
     use WithRateLimiting;
     public ?array $data = [];
+
+    public function render()
+    {
+        return view('livewire.pages.home');
+    }
     
     public function mount(): void
     {
@@ -109,23 +115,17 @@ class Home extends Component implements HasForms
         
         $data = $this->form->getState();
         $record = Quote::create($data);
+
+        defer(function() use($data, $record){
+            app(QuoteMailer::class)->sendUserCreated($record);
+        });
+
         Notification::make()
             ->title('Successfully create new quote')
             ->body('Please check your email to see the quote details.')
             ->success()
             ->send();
 
-        defer(function() use($data, $record){
-            Mail::to($data['email'])->send(new UserNewQuoteMail($record));
-            Mail::to(config('mail.from.address'))->send(new AdminNewQuoteMail($record));
-        });
-
-        // Reinitialize the form to clear its data.
         $this->form->fill();
-    }
-
-    public function render()
-    {
-        return view('livewire.pages.home');
     }
 }

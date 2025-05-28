@@ -3,7 +3,7 @@
 - [x] buat quote status enum
 - [x] buat quote service type enum
 - [x] buat quote model dan migration
-- [ ] install pest
+- [x] install pest
 - [x] install Date Range Filter and Picker
 - [ ] install phpstan
 - [ ] install pint
@@ -33,5 +33,6 @@
 - [x] look for optimize the code
 - [x] add throller if submitted to many
 - [x] add custom theme
-- [ ] add testing for mvp feature
 - [ ] See scheduled quotes on a calendar page.
+- [ ] add testing for mvp feature
+- [ ] create script for setup this app
