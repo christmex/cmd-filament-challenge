@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Forms\Components\Textarea;
 use Filament\Tables;
 use App\Models\Quote;
 use App\Enums\QuoteStatus;
@@ -92,8 +93,8 @@ class QuoteResource extends Resource
                     ->iconButton()
                     ->tooltip(QuoteStatus::Approved->actionName())
                     ->icon(QuoteStatus::Approved->icon())
-                    // ->iconSize(IconSize::Small)
                     ->requiresConfirmation()
+                    ->visible(fn(Quote $record) => $record->status->canTransitionTo(QuoteStatus::Approved))
                     ->modalIcon(QuoteStatus::Approved->icon())
                     ->color(QuoteStatus::Approved->color())
                     ->modalIconColor(QuoteStatus::Approved->color())
@@ -110,10 +111,73 @@ class QuoteResource extends Resource
                             ->minValue(0)
                     ])
                     ->action(function(Quote $record, array $data){
-                        $record->update(['price' => $data['price']]);
+                        $record->update([
+                            'price' => $data['price'],
+                            'status' => QuoteStatus::Approved,
+                        ]);
                         Notification::make()
                             ->title('Quote Approved')
                             ->body('Email sent to the user')
+                            ->success()
+                            ->send();
+                    }),
+                Tables\Actions\Action::make(QuoteStatus::Rejected->actionName())
+                    ->iconButton()
+                    ->tooltip(QuoteStatus::Rejected->actionName())
+                    ->icon(QuoteStatus::Rejected->icon())
+                    ->requiresConfirmation()
+                    ->visible(fn(Quote $record) => $record->status->canTransitionTo(QuoteStatus::Rejected))
+                    ->modalIcon(QuoteStatus::Rejected->icon())
+                    ->color(QuoteStatus::Rejected->color())
+                    ->modalIconColor(QuoteStatus::Rejected->color())
+                    ->form([
+                        Textarea::make('rejection_reason')
+                            ->required()
+                    ])
+                    ->action(function(Quote $record, array $data){
+                        $record->update([
+                            'rejection_reason' => $data['rejection_reason'],
+                            'status' => QuoteStatus::Rejected,
+                        ]);
+                        Notification::make()
+                            ->title('Quote Rejected')
+                            ->body('Email sent to the user')
+                            ->success()
+                            ->send();
+                    }),
+                Tables\Actions\Action::make(QuoteStatus::Scheduled->actionName())
+                    ->iconButton()
+                    ->tooltip(QuoteStatus::Scheduled->actionName())
+                    ->icon(QuoteStatus::Scheduled->icon())
+                    ->requiresConfirmation()
+                    ->visible(fn(Quote $record) => $record->status->canTransitionTo(QuoteStatus::Scheduled))
+                    ->modalIcon(QuoteStatus::Scheduled->icon())
+                    ->color(QuoteStatus::Scheduled->color())
+                    ->modalIconColor(QuoteStatus::Scheduled->color())
+                    ->action(function(Quote $record){
+                        $record->update([
+                            'status' => QuoteStatus::Scheduled,
+                        ]);
+                        Notification::make()
+                            ->title('Quote Scheduled')
+                            ->success()
+                            ->send();
+                    }),
+                Tables\Actions\Action::make(QuoteStatus::Invoiced->actionName())
+                    ->iconButton()
+                    ->tooltip(QuoteStatus::Invoiced->actionName())
+                    ->icon(QuoteStatus::Invoiced->icon())
+                    ->requiresConfirmation()
+                    ->visible(fn(Quote $record) => $record->status->canTransitionTo(QuoteStatus::Invoiced))
+                    ->modalIcon(QuoteStatus::Invoiced->icon())
+                    ->color(QuoteStatus::Invoiced->color())
+                    ->modalIconColor(QuoteStatus::Invoiced->color())
+                    ->action(function(Quote $record){
+                        $record->update([
+                            'status' => QuoteStatus::Invoiced,
+                        ]);
+                        Notification::make()
+                            ->title('Quote Invoiced')
                             ->success()
                             ->send();
                     }),

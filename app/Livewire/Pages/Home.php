@@ -3,20 +3,22 @@
 namespace App\Livewire\Pages;
 
 use DateTime;
+use App\Models\Quote;
 use Livewire\Component;
 use Filament\Forms\Form;
 use App\Enums\ServiceType;
-use App\Models\Quote;
+use App\Mail\NewQuoteMail;
 use Filament\Forms\Components\Group;
+use Illuminate\Support\Facades\Mail;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Notifications\Notification;
 
 class Home extends Component implements HasForms
 {
@@ -69,20 +71,28 @@ class Home extends Component implements HasForms
                     Textarea::make('notes')
                         ->columnSpanFull()
                         ->placeholder('Give some notes...'),
-                ])->columns(2)
+                ])->columns([
+                    'default' => 1,
+                    'sm' => 2
+                ])
             ])
             ->statePath('data');
     }
     
     public function create(): void
     {
-        Quote::create($this->form->getState());
+        $data = $this->form->getState();
+        Quote::create($data);
         Notification::make()
             ->title('Successfully send new quote')
             ->body('Please check your email to see the quote details.')
             ->success()
-            ->persistent()
             ->send();
+
+        defer(function()use($data){
+            // Mail::to(config('mail.from.address'))->send(new NewQuoteMail());
+            Mail::to($data['email'])->send(new NewQuoteMail());
+        });
 
         // Reinitialize the form to clear its data.
         $this->form->fill();

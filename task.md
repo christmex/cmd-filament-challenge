@@ -10,27 +10,29 @@
 
 
 ### High (MVP)
-- [x] user can send quote form from frontend using filament form
-- [x] user can get success notif with email sent if the form submitted succsfully 
-
+- [x] user can send quote from frontend using filament form if success show notif 
 - [x] View a list of all quotes
 - [x] Filter quotes by status, service, created date and booking date
 - [x] Search by name, email, phone or address
 - [x] Sort by created date or booking date
 - [ ] View full quote details, including an estimated, automatically-generated price.
 - [x] Approve a quote, allowing staff to override and set the price if necessary.
-      - [ ] This action should send an email to the customer with the price.
-- [ ] Reject a quote with a reason.
-      - [ ] This action should send an email to the customer with the reason.
+- [x] Reject a quote with a reason.
 - [ ] Mark an approved quote scheduled.
 - [ ] Mark a scheduled quote as invoiced.
 
 ### Medium
+- [ ] set .env mail using mailtrap
 - [ ] Send email to user when quote submitted
 - [ ] Send email to admin when new quote submitted
+- [ ] Send email to user when quote approved with the price
+- [ ] Send email to user when quote rejected with the reject reason
 
 ### Low
+- [ ] look for optimize the code
+- [ ] add try and catch in create() Home
 - [ ] add throller if submitted to many
 - [ ] add custom theme
 - [ ] add testing for mvp feature
 - [ ] See scheduled quotes on a calendar page.
+- [ ] Store and format dates in UTC.

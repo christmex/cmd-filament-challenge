@@ -24,11 +24,11 @@ enum QuoteStatus: string
     public function actionName(): string
     {
         return match($this) {
-            self::Pending => 'Pending',
-            self::Approved => 'Approve',
-            self::Rejected => 'Reject',
-            self::Scheduled => 'Schedule',
-            self::Invoiced => 'Invoice',
+            self::Pending => 'Mark as Pending',
+            self::Approved => 'Mark as Approve',
+            self::Rejected => 'Mark as Reject',
+            self::Scheduled => 'Mark as Schedule',
+            self::Invoiced => 'Mark as Invoice',
         };
     }
 
@@ -39,7 +39,7 @@ enum QuoteStatus: string
             self::Approved => 'success',
             self::Rejected => 'danger',
             self::Scheduled => 'info',
-            self::Invoiced => 'purple',
+            self::Invoiced => 'primary',
         };
     }
 

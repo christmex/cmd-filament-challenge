@@ -11,7 +11,7 @@
     @apply dark:!bg-transparent dark:ring-0 !bg-transparent ring-0 shadow-none;
 }
 .fi-simple-main .fi-logo {
-    @apply !h-6
+    @apply !h-10
 }
 .fi-simple-header-heading {
     @apply text-xl
