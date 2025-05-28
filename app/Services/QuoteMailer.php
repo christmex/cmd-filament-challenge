@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Services;
 
-use App\Models\Quote;
-use App\Mail\UserNewQuoteMail;
 use App\Mail\AdminNewQuoteMail;
 use App\Mail\UserApprovedQuoteMail;
+use App\Mail\UserNewQuoteMail;
 use App\Mail\UserRejectedQuoteMail;
+use App\Models\Quote;
 use Illuminate\Support\Facades\Mail;
 
 class QuoteMailer

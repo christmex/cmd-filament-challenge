@@ -4,11 +4,11 @@ namespace App\Models;
 
 use App\Enums\QuoteStatus;
 use App\Enums\ServiceType;
-use Illuminate\Support\Str;
-use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class Quote extends Model
 {
@@ -16,7 +16,7 @@ class Quote extends Model
         'service_type' => ServiceType::class,
         'status' => QuoteStatus::class,
     ];
-    
+
     protected $fillable = [
         'reference_number',
         'name',
@@ -31,7 +31,6 @@ class Quote extends Model
         'price',
         'rejection_reason',
     ];
-
 
     protected function bookingDate(): Attribute
     {
@@ -58,6 +57,6 @@ class Quote extends Model
 
     public static function generateReference(): string
     {
-        return 'QUOTE-' . Str::upper(Str::ulid());
+        return 'QUOTE-'.Str::upper(Str::ulid());
     }
 }

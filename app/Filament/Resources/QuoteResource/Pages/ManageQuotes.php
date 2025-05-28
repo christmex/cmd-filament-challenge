@@ -2,11 +2,10 @@
 
 namespace App\Filament\Resources\QuoteResource\Pages;
 
-use App\Models\Quote;
-use Filament\Actions;
 use App\Enums\QuoteStatus;
-use Filament\Resources\Components\Tab;
 use App\Filament\Resources\QuoteResource;
+use App\Models\Quote;
+use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ManageRecords;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -39,5 +38,4 @@ class ManageQuotes extends ManageRecords
 
         return $tabs;
     }
-
 }

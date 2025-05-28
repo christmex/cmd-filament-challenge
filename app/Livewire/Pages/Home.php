@@ -2,45 +2,39 @@
 
 namespace App\Livewire\Pages;
 
-use DateTime;
-use App\Models\Quote;
-use Livewire\Component;
-use Filament\Forms\Form;
 use App\Enums\ServiceType;
-use App\Mail\NewQuoteMail;
+use App\Models\Quote;
 use App\Services\QuoteMailer;
-use App\Mail\UserNewQuoteMail;
-use App\Mail\AdminNewQuoteMail;
+use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
+use DanHarrin\LivewireRateLimiting\WithRateLimiting;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
-use Illuminate\Support\Facades\Mail;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Concerns\InteractsWithForms;
-use DanHarrin\LivewireRateLimiting\WithRateLimiting;
-use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
+use Filament\Notifications\Notification;
+use Livewire\Component;
 
 class Home extends Component implements HasForms
 {
     use InteractsWithForms;
     use WithRateLimiting;
+
     public ?array $data = [];
 
     public function render()
     {
         return view('livewire.pages.home');
     }
-    
+
     public function mount(): void
     {
         $this->form->fill();
     }
-    
+
     protected function getRateLimitedNotification(TooManyRequestsException $exception): ?Notification
     {
         return Notification::make()
@@ -70,8 +64,7 @@ class Home extends Component implements HasForms
                     TextInput::make('phone')
                         ->required()
                         ->columnSpanFull()
-                        ->placeholder('Ex: +61431532188')
-                        ,
+                        ->placeholder('Ex: +61431532188'),
                     Textarea::make('address')
                         ->required()
                         ->columnSpanFull(),
@@ -80,11 +73,12 @@ class Home extends Component implements HasForms
                         ->required()
                         ->options(
                             collect(ServiceType::cases())->mapWithKeys(fn ($case) => [
-                                $case->value => $case->label()
+                                $case->value => $case->label(),
                             ])->toArray()
                         ),
                     DateTimePicker::make('booking_date')
                         ->required()
+                        ->minDate('today')
                         ->format('Y-m-d H:i'),
                     TextInput::make('duration')
                         ->integer()
@@ -97,26 +91,26 @@ class Home extends Component implements HasForms
                         ->placeholder('Give some notes...'),
                 ])->columns([
                     'default' => 1,
-                    'sm' => 2
-                ])
+                    'sm' => 2,
+                ]),
             ])
             ->statePath('data');
     }
-    
-    
+
     public function create(): void
     {
         try {
             $this->rateLimit(5);
         } catch (TooManyRequestsException $exception) {
             $this->getRateLimitedNotification($exception)?->send();
+
             return;
         }
-        
+
         $data = $this->form->getState();
         $record = Quote::create($data);
 
-        defer(function() use($record){
+        defer(function () use ($record) {
             app(QuoteMailer::class)->sendUserCreated($record);
         });
 

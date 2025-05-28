@@ -10,7 +10,7 @@ enum ServiceType: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Cleaning => 'Cleaning',
             self::Maintenance => 'Maintenance',
             self::Inspections => 'Inspections',
@@ -19,7 +19,7 @@ enum ServiceType: string
 
     public function price(): int
     {
-        return match($this) {
+        return match ($this) {
             self::Cleaning => 40,
             self::Maintenance => 50,
             self::Inspections => 70,
@@ -28,11 +28,10 @@ enum ServiceType: string
 
     public function color(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Cleaning => 'cleaning',
             self::Maintenance => 'maintenance',
             self::Inspections => 'inspections',
         };
     }
-
 }

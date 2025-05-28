@@ -34,5 +34,5 @@
 - [x] add throller if submitted to many
 - [x] add custom theme
 - [ ] See scheduled quotes on a calendar page.
-- [ ] add testing for mvp feature
-- [ ] create script for setup this app
+- [x] add testing for mvp feature
+- [x] create script for setup this app

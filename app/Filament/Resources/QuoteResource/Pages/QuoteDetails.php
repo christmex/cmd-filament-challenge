@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\QuoteResource\Pages;
 
-use Filament\Actions;
-use Illuminate\Support\Js;
-use Filament\Resources\Pages\Page;
 use App\Filament\Resources\QuoteResource;
+use Filament\Actions;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
+use Filament\Resources\Pages\Page;
+use Illuminate\Support\Js;
 
 class QuoteDetails extends Page
 {
@@ -15,8 +15,8 @@ class QuoteDetails extends Page
     protected static string $resource = QuoteResource::class;
 
     protected static string $view = 'filament.resources.quote-resource.pages.quote-details';
-    
-    public function mount(int | string $record): void
+
+    public function mount(int|string $record): void
     {
         $this->record = $this->resolveRecord($record);
     }
@@ -37,7 +37,7 @@ class QuoteDetails extends Page
         return [
             Actions\Action::make('back')
                 ->label('Back to list')
-                ->alpineClickHandler('document.referrer ? window.history.back() : (window.location.href = ' . Js::from($this->previousUrl ?? static::getResource()::getUrl()) . ')')
+                ->alpineClickHandler('document.referrer ? window.history.back() : (window.location.href = '.Js::from($this->previousUrl ?? static::getResource()::getUrl()).')')
                 ->color('gray'),
         ];
     }

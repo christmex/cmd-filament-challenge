@@ -1,9 +1,8 @@
-<?php 
+<?php
 
-use Livewire\Livewire;
 use App\Enums\ServiceType;
 use App\Livewire\Pages\Home;
-
+use Livewire\Livewire;
 
 test('user can access the form', function () {
     Livewire::test(Home::class)->assertStatus(200);
@@ -22,6 +21,5 @@ it('submitting the form sends a notification', function () {
         ->set('data.notes', 'Another note')
         ->call('create')
         ->assertNotified('Successfully create new quote');
-        
-});
 
+});

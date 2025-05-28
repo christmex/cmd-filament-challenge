@@ -2,26 +2,23 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Tables;
-use App\Models\Quote;
 use App\Enums\QuoteStatus;
 use App\Enums\ServiceType;
-use Filament\Tables\Table;
-use Filament\Support\RawJs;
+use App\Filament\Resources\QuoteResource\Pages;
+use App\Models\Quote;
 use App\Services\QuoteMailer;
-use Filament\Resources\Resource;
-use App\Mail\UserApprovedQuoteMail;
-use App\Mail\UserRejectedQuoteMail;
-use Filament\Support\Enums\IconSize;
-use Illuminate\Support\Facades\Mail;
 use Filament\Forms\Components\Textarea;
-use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Resources\Resource;
+use Filament\Support\Enums\IconSize;
+use Filament\Support\RawJs;
+use Filament\Tables;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\QuoteResource\Pages;
+use Illuminate\Database\Eloquent\Model;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 
 class QuoteResource extends Resource
@@ -29,7 +26,6 @@ class QuoteResource extends Resource
     protected static ?string $model = Quote::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
-
 
     public static function table(Table $table): Table
     {
@@ -83,7 +79,7 @@ class QuoteResource extends Resource
                     ->columnSpanFull()
                     ->options(
                         collect(ServiceType::cases())->mapWithKeys(fn ($case) => [
-                            $case->value => $case->label()
+                            $case->value => $case->label(),
                         ])->toArray()
                     ),
                 DateRangeFilter::make('created_at'),
@@ -97,7 +93,7 @@ class QuoteResource extends Resource
                     ->tooltip(QuoteStatus::Approved->actionName())
                     ->icon(QuoteStatus::Approved->icon())
                     ->requiresConfirmation()
-                    ->visible(fn(Quote $record) => $record->status->canTransitionTo(QuoteStatus::Approved))
+                    ->visible(fn (Quote $record) => $record->status->canTransitionTo(QuoteStatus::Approved))
                     ->modalIcon(QuoteStatus::Approved->icon())
                     ->color(QuoteStatus::Approved->color())
                     ->modalIconColor(QuoteStatus::Approved->color())
@@ -108,21 +104,21 @@ class QuoteResource extends Resource
                             ->mask(RawJs::make('$money($input)'))
                             ->stripCharacters(',')
                             ->numeric()
-                            ->default(function(Quote $record){
+                            ->default(function (Quote $record) {
                                 return $record->price;
                             })
-                            ->minValue(0)
+                            ->minValue(0),
                     ])
-                    ->action(function(Quote $record, array $data){
+                    ->action(function (Quote $record, array $data) {
                         $record->update([
                             'price' => $data['price'],
                             'status' => QuoteStatus::Approved,
                         ]);
 
-                        defer(function() use($record){
+                        defer(function () use ($record) {
                             app(QuoteMailer::class)->sendUserApproved($record);
                         });
-                        
+
                         Notification::make()
                             ->title('Quote Approved')
                             ->body('Email sent to the user')
@@ -134,21 +130,21 @@ class QuoteResource extends Resource
                     ->tooltip(QuoteStatus::Rejected->actionName())
                     ->icon(QuoteStatus::Rejected->icon())
                     ->requiresConfirmation()
-                    ->visible(fn(Quote $record) => $record->status->canTransitionTo(QuoteStatus::Rejected))
+                    ->visible(fn (Quote $record) => $record->status->canTransitionTo(QuoteStatus::Rejected))
                     ->modalIcon(QuoteStatus::Rejected->icon())
                     ->color(QuoteStatus::Rejected->color())
                     ->modalIconColor(QuoteStatus::Rejected->color())
                     ->form([
                         Textarea::make('rejection_reason')
-                            ->required()
+                            ->required(),
                     ])
-                    ->action(function(Quote $record, array $data){
+                    ->action(function (Quote $record, array $data) {
                         $record->update([
                             'rejection_reason' => $data['rejection_reason'],
                             'status' => QuoteStatus::Rejected,
                         ]);
 
-                        defer(function() use($record){
+                        defer(function () use ($record) {
                             app(QuoteMailer::class)->sendUserRejected($record);
                         });
 
@@ -163,11 +159,11 @@ class QuoteResource extends Resource
                     ->tooltip(QuoteStatus::Scheduled->actionName())
                     ->icon(QuoteStatus::Scheduled->icon())
                     ->requiresConfirmation()
-                    ->visible(fn(Quote $record) => $record->status->canTransitionTo(QuoteStatus::Scheduled))
+                    ->visible(fn (Quote $record) => $record->status->canTransitionTo(QuoteStatus::Scheduled))
                     ->modalIcon(QuoteStatus::Scheduled->icon())
                     ->color(QuoteStatus::Scheduled->color())
                     ->modalIconColor(QuoteStatus::Scheduled->color())
-                    ->action(function(Quote $record){
+                    ->action(function (Quote $record) {
                         $record->update([
                             'status' => QuoteStatus::Scheduled,
                         ]);
@@ -181,11 +177,11 @@ class QuoteResource extends Resource
                     ->tooltip(QuoteStatus::Invoiced->actionName())
                     ->icon(QuoteStatus::Invoiced->icon())
                     ->requiresConfirmation()
-                    ->visible(fn(Quote $record) => $record->status->canTransitionTo(QuoteStatus::Invoiced))
+                    ->visible(fn (Quote $record) => $record->status->canTransitionTo(QuoteStatus::Invoiced))
                     ->modalIcon(QuoteStatus::Invoiced->icon())
                     ->color(QuoteStatus::Invoiced->color())
                     ->modalIconColor(QuoteStatus::Invoiced->color())
-                    ->action(function(Quote $record){
+                    ->action(function (Quote $record) {
                         $record->update([
                             'status' => QuoteStatus::Invoiced,
                         ]);
@@ -199,7 +195,7 @@ class QuoteResource extends Resource
                     ->tooltip('View')
                     ->icon('heroicon-o-eye')
                     ->color('gray')
-                    ->url(fn(Quote $record) => self::getUrl('detail',['record' => $record->id]))
+                    ->url(fn (Quote $record) => self::getUrl('detail', ['record' => $record->id])),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

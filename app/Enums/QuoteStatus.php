@@ -12,7 +12,7 @@ enum QuoteStatus: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Pending => 'Pending',
             self::Approved => 'Approved',
             self::Rejected => 'Rejected',
@@ -23,7 +23,7 @@ enum QuoteStatus: string
 
     public function actionName(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Pending => 'Mark as Pending',
             self::Approved => 'Mark as Approve',
             self::Rejected => 'Mark as Reject',
@@ -34,7 +34,7 @@ enum QuoteStatus: string
 
     public function color(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Pending => 'gray',
             self::Approved => 'success',
             self::Rejected => 'danger',
@@ -45,15 +45,14 @@ enum QuoteStatus: string
 
     public function icon(): string
     {
-        return match($this) {
-            self::Pending   => 'heroicon-o-clock',
-            self::Approved  => 'heroicon-o-check-circle',
-            self::Rejected  => 'heroicon-o-x-circle',
+        return match ($this) {
+            self::Pending => 'heroicon-o-clock',
+            self::Approved => 'heroicon-o-check-circle',
+            self::Rejected => 'heroicon-o-x-circle',
             self::Scheduled => 'heroicon-o-calendar-days',
-            self::Invoiced  => 'heroicon-o-receipt-percent',
+            self::Invoiced => 'heroicon-o-receipt-percent',
         };
     }
-
 
     public function canTransitionTo(self $new): bool
     {
