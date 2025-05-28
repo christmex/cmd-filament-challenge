@@ -116,7 +116,7 @@ class Home extends Component implements HasForms
         $data = $this->form->getState();
         $record = Quote::create($data);
 
-        defer(function() use($data, $record){
+        defer(function() use($record){
             app(QuoteMailer::class)->sendUserCreated($record);
         });
 
