@@ -2,7 +2,7 @@
 
 # Stop if vendor folder already exists
 if [ -d "vendor" ]; then
-    echo "✅ Project already set up. Skipping setup steps."
+    echo "✅ Project already set up. Skipping setup steps. | also dont forget to setup mailtrap in .env file"
     exit 0
 fi
 
@@ -35,4 +35,4 @@ php artisan migrate
 # Step 7: Create initial Filament user
 php artisan make:filament-user
 
-echo "🎉 Project setup complete."
+echo "🎉 Project setup complete. | also dont forget to setup mailtrap in .env file"
