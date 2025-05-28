@@ -181,6 +181,12 @@ class QuoteResource extends Resource
                             ->success()
                             ->send();
                     }),
+                Tables\Actions\Action::make('view')
+                    ->iconButton()
+                    ->tooltip('View')
+                    ->icon('heroicon-o-eye')
+                    ->color('gray')
+                    ->url(fn(Quote $record) => self::getUrl('detail',['record' => $record->id]))
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -193,6 +199,7 @@ class QuoteResource extends Resource
     {
         return [
             'index' => Pages\ManageQuotes::route('/'),
+            'detail' => Pages\QuoteDetails::route('/{record}/detail'),
         ];
     }
 }

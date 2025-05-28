@@ -29,9 +29,9 @@ enum ServiceType: string
     public function color(): string
     {
         return match($this) {
-            self::Cleaning => 'success',
-            self::Maintenance => 'warning',
-            self::Inspections => 'danger',
+            self::Cleaning => 'cleaning',
+            self::Maintenance => 'maintenance',
+            self::Inspections => 'inspections',
         };
     }
 

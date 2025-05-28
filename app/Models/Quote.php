@@ -4,8 +4,9 @@ namespace App\Models;
 
 use App\Enums\QuoteStatus;
 use App\Enums\ServiceType;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Quote extends Model
 {
@@ -15,6 +16,7 @@ class Quote extends Model
     ];
     
     protected $fillable = [
+        'reference_number',
         'name',
         'email',
         'phone',
@@ -31,6 +33,7 @@ class Quote extends Model
     protected static function booted(): void
     {
         static::creating(function ($quote) {
+            $quote->reference_number = $quote->reference_number ?? self::generateReference();
             $quote->status = QuoteStatus::Pending;
             $quote->price = $quote->duration * $quote->service_type->price();
         });
@@ -41,5 +44,10 @@ class Quote extends Model
         $statusValue = $status instanceof QuoteStatus ? $status->value : QuoteStatus::from($status)->value;
 
         return $query->where('status', $statusValue);
+    }
+
+    public static function generateReference(): string
+    {
+        return 'QUOTE-' . Str::upper(Str::ulid());
     }
 }
